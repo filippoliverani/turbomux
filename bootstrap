@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+brew install tmux
+brew install fpp
+pip install powerline-status
+
+path="$HOME/.turbomux"
+if [ -e "$path/.git" ]; then
+  cd "$path" && git pull
+else
+  git clone https://github.com/filippo-liverani/turbomux.git "$path"
+fi
+
+tpmPath="$HOME/.tmux/plugins/"
+if [ -e "$tpmPath/tpm/.git" ]; then
+  cd "$tpmPath/tpm" && git pull
+else
+  git clone https://github.com/tmux-plugins/tpm.git "$tpmPath/tpm"
+fi
+
+ln -sf $path/tmux.conf ~/.tmux.conf
+
+export TMUX_PLUGIN_MANAGER_PATH="$tpmPath"
+$tpmPath/tpm/bin/install_plugins
+$tpmPath/tpm/bin/update_plugins all
+
