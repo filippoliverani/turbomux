@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
 path="$HOME/.turbomux"
+
 if [ -e "$path/.git" ]; then
   cd "$path" && git pull
 else
